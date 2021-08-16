@@ -22,4 +22,10 @@ export class ShoppingListService {
     this.ingredientsChanged.emit(this.ingredients.slice());
   }
 
+  // to not emit a signal with each add; addAll + emit once
+  addIngredients(ingredients: Ingredient[]): void {
+    this.ingredients.push(...ingredients);
+    this.ingredientsChanged.emit(this.ingredients.slice());
+  }
+
 }
