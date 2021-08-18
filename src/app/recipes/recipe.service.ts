@@ -1,8 +1,14 @@
 import {Recipe} from './recipe.model';
-import {EventEmitter} from '@angular/core';
 import {Ingredient} from '../shared/ingredient.model';
+import {ShoppingListService} from '../shopping-list/shopping-list.service';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class RecipeService {
+
+  constructor(private shoppingListService: ShoppingListService) {
+  }
+
   private recipes: Recipe[] = [
     new Recipe('Tasty Stew',
       'A super tasty stew - wow!',
@@ -20,11 +26,16 @@ export class RecipeService {
       ])
   ];
 
-  recipeSelected = new EventEmitter<Recipe>();
-
   getRecipes(): Recipe[] {
     // return the 'copy' of the recipe; to prevent update of 'original' recipes
     return this.recipes.slice();
   }
 
+  getRecipe(id: number): Recipe {
+    return this.recipes[id];
+  }
+
+  toShoppingList(ingredients: Ingredient[]): void {
+    this.shoppingListService.addIngredients(ingredients);
+  }
 }
